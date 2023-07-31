@@ -1,0 +1,21 @@
+@charset "UTF-8";
+.site-section {
+	background-color: #222831;
+}
+
+.h3{
+	color: white;
+	text-align: center;
+}
+
+label{
+	color: white;
+}
+
+.layout_padding{
+	padding-top: 100px;
+}
+
+.active {
+	color:#FFBE33 !important;
+}

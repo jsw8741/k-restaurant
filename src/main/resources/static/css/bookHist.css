@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+.repImg{
+	 width: 200px;
+    height: 200px;
+    
+}
+
+.repImgDiv{
+	margin: 1rem;
+}
+
+.card{
+	width: 800px;
+	align-items: center;
+}
+
+
+.btn-outline-secondary{
+	width: 100px;
+	margin-right: 1rem;
+}
+
+.h3{
+	text-align: center;
+}
+
+a:hover {
+	color:#FFBE33;
+	cursor: pointer
+}
+
+.btn-primary{
+	color: black;
+	width: 100px;
+	margin-right: 1rem;
+}
+
+.active{
+	color:#FFBE33;
+}

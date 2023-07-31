@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	  
+	<header class="header_section">
+        <div class="container">
+          <nav class="navbar navbar-expand-lg custom_nav-container">
+            <a class="navbar-brand" href="/">
+              <span> K-Restaurant </span>
+            </a>
+
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class=""> </span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mx-auto nav col-12 col-md-auto justify-content-center">                
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+						<a class="nav-link dropdown-toggle" href="/" id="adminMenuDropdown" role="button"
+							data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">관리자</a>
+						<div class="dropdown-menu" aria-labelledby="adminMenuDropdown">
+							<a class="dropdown-item" href="/admin/menu/new">메뉴등록</a>
+							<a class="dropdown-item" href="/admin/menus">메뉴관리</a>
+							<a class="dropdown-item" href="/admin/books">예약관리</a>
+							<a class="dropdown-item" href="/admin/new">관리자등록</a>							
+						</div>
+				</li>
+                
+                <li class="nav-item"><a class="nav-link" href="/">홈<span class="sr-only"></span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/menu/list">메뉴</a></li>
+                <li class="nav-item"><a class="nav-link" href="/book/page" sec:authorize="isAuthenticated()">예약하기</a></li>
+                <li class="nav-item"><a class="nav-link" href="/members/review" sec:authorize="hasAnyAuthority('ROLE_USER')">리뷰작성</a></li>
+                <li class="nav-item"><a class="nav-link" href="/members/login" sec:authorize="isAnonymous()">로그인</a></li>
+                <li class="nav-item"><a class="nav-link" href="/members/logout" sec:authorize="isAuthenticated()">로그아웃</a></li>
+              </ul>
+              <div class="user_option">
+              	
+              	
+                <a href="/members/myPage" class="user_link">
+                  <i class="fa fa-user" aria-hidden="true" sec:authorize="isAuthenticated()"></i>
+                </a>
+                
+                <a href="/members/myBook" class="user_link">
+                  <i class="fa fa-book" aria-hidden="true" sec:authorize="hasAnyAuthority('ROLE_USER')"></i>                
+                </a>
+                 <a href="/members/new" class="order_online" sec:authorize="isAnonymous()"> 회원가입 </a>
+              	 <a href="/menu/list" class="order_online" sec:authorize="isAuthenticated()"> 온라인 주문 </a>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <script type="text/javascript"> 
+	    </script>
+      </header>
+</html>

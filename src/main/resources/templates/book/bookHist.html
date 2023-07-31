@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout2}">
+	
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>	
+<th:block layout:fragment="css">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bookHist.css}"/>
+</th:block>
+	
+<div layout:fragment="content">
+
+	<div class="site-section layout_padding">
+		<div class="container layout_padding">
+			<div class="row">
+				<div class="col-md-2"></div>
+				
+				<div class="col-md-8">
+					<h2 class="h3 mb-3 text-black" th:if="${books.isEmpty()}">예약내역이 없습니다.</h2>
+					<h2 class="h3 mb-3 text-black" th:if="${not books.isEmpty()}">예약내역</h2>
+					<div style="margin-bottom: 15px;" th:each="book : ${books.getContent()}">
+						<div class="d-flex mb-3 align-self-center">
+							<th:block th:if="${#strings.equals(book.bookStatus, 'BOOK')}"> 
+								<h4 th:text="${book.bookDate} + ' 예약'" style="font-size: 18px;"></h4>
+							</th:block>
+							
+							<th:block th:unless="${#strings.equals(book.bookStatus, 'BOOK')}">
+								<h4 style="font-size: 18px;">예약 취소 완료</h4>
+							</th:block>
+						</div>
+						
+						<div class="card d-flex flex-row">
+							<div th:each="bookMenu : ${book.bookMenuDtoList}"
+								class="d-flex mb-3" style="width:90%">
+								<div class="repImgDiv">
+									<img class="rounded repImg"
+										th:src="${bookMenu.imgUrl}">
+								</div>
+								
+								<div class="align-self-center w-75">
+									<span class="font-weight-bold"
+										style="font-size: 18px; color: black;"></span>
+									<div class="fs18 font-weight-light">
+										 <span th:text="'예약자 : ' + ${book.bookMemberNm}"></span>
+										 <br>
+										 <span th:text="'연락처 : ' + ${book.bookMemberPh}"></span>
+										 <br>
+										 <span th:text="${bookMenu.menuNm} + ' : '"></span>
+										 <span th:text="${bookMenu.count} + 개"></span>
+										 <br>
+										 <span th:if="${not #strings.isEmpty(book.book_request)}" style="width: 350px;display: inline-block;"
+										 th:text="'요청사항 : ' + ${book.book_request}"></span>
+									</div>
+								</div>
+								
+							</div>
+							<div class="align-self-center card2">
+								<th:block th:if="${#strings.equals(book.bookStatus, 'BOOK')}">
+									<button type="button" class="btn btn-outline-secondary" style="margin-bottom: 1rem;"
+									th:value="${book.bookId}" onclick="cancelBook(this.value)">예약취소</button>
+									
+									<button type="button" class="btn btn-outline-secondary"
+									th:value="${book.bookId}" onclick="doneBook(this.value)">결제완료</button>
+								</th:block>
+								
+								<th:block th:if="${#strings.equals(book.bookStatus, 'CANCEL')}">
+									<button type="button" class="btn btn-primary" style="margin-right: 100px;"
+									th:value="${book.bookId}" onclick="deleteBook(this.value)">삭제하기</button>
+								</th:block>
+							</div>
+						</div>
+					</div>
+					<div th:if="${not books.isEmpty()}">
+						<nav th:with="start=${(books.number/maxPage)*maxPage + 1}
+							,end=(${(books.totalPages == 0) ? 1 : (start + (maxPage - 1) < books.totalPages ? start + (maxPage - 1) : books.totalPages)})"
+							aria-label="Page navigation example">
+						  <ul class="pagination justify-content-center">
+						    <li class="page-item" th:classappend="${books.first}?'disabled'">
+									<a class="page-link"
+									th:onclick="'javascript:page(' + ${books.number - 1} +')'">이전</a>
+								</li>
+								
+						    <li class="page-item"
+									th:each="page: ${#numbers.sequence(start, end)}"
+									th:classappend="${books.number eq page-1}?'active':''">
+									<a
+									class="page-link" th:inline="text"
+									th:onclick="'javascript:page(' + ${page - 1} +')'">[[${page}]]</a>
+							</li>
+								
+						    <li class="page-item" th:classappend="${books.last}?'disabled'">
+									<a class="page-link"
+									th:onclick="'javascript:page(' + ${books.number + 1} +')'">다음</a>
+							</li>
+						  </ul>
+						</nav>
+					</div>
+				</div>
+				
+				<div class="col-md-2"></div>
+			</div>
+		</div>
+	</div>
+
+</div>	
+
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+	function cancelBook(bookId) {
+		const cancelconf = confirm("예약을 취소하시겠습니까?");
+		if(!cancelconf) return;
+		
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		var url = "/admin/book/" + bookId + "/cancel";
+
+		//서버로 보내줄 데이터(반드시 JSON  -> string 타입으로 바꿔야한다.)
+		var paramData = {
+			bookId : bookId	
+		};
+		
+		var param = JSON.stringify(paramData);
+		
+			$.ajax({
+				url : url,
+				type : "POST", //전송방식
+				contentType : "application/json",
+				data : param,
+				beforeSend : function(xhr) {
+					//데이터를 전송하기 전에 헤더에 xsrf값
+					xhr.setRequestHeader(header, token);
+				},
+				dataType : "json",
+				cache : false,
+				success : function(result, status) {
+					var path = location.pathname;
+					var page = path.substring(path.lastIndexOf("/") + 1);
+					if(page == 'books'){
+						page = 0;
+					}
+					
+					//주문취소 후에 해당 페이지로 이동시켜준다.
+					location.href= '/admin/books/' + page;
+				},
+				error : function(jqXHR, status, error) {
+					if(jqXHR.status == '401') {
+						alert('로그인 후 이용해주세요.');
+						location.href = '/members/login';
+					} else {
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+	}
+	
+	function deleteBook(bookId){
+		const deleteconf = confirm("예약 내역을 삭제하시겠습니까?");
+		if(!deleteconf) return;
+		
+		removeBook(bookId);
+	}
+	
+	function doneBook(bookId){
+		const doneconf = confirm("결제가 완료 되었습니까?");
+		if(!doneconf) return;
+		
+		removeBook(bookId);
+	}
+	
+	function removeBook(bookId){
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		var url = "/admin/book/" + bookId + "/delete";
+		
+			$.ajax({
+				url : url,
+				type : "DELETE", //전송방식
+				contentType : "application/json",
+				beforeSend : function(xhr) {
+					//데이터를 전송하기 전에 헤더에 xsrf값
+					xhr.setRequestHeader(header, token);
+				},
+				dataType : "json",
+				cache : false,
+				success : function(result, status) {
+					location.href= '/admin/books';
+				},
+				error : function(jqXHR, status, error) {
+					if(jqXHR.status == '401') {
+						alert('로그인 후 이용해주세요.');
+						location.href = '/members/login';
+					} else {
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+	}
+	
+	// 페이징버튼 눌렀을때 검색어와 selectbox를 get방식으로 주소 이동시켜준다
+	function page(page){
+		// 주소 이동
+		location.href = "/admin/books/" + page;
+	}
+	
+	
+	</script>
+</th:block>
+</html>

@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+img {
+	width: 100%;
+}
+
+button {
+	color: #ffbe33 !important;
+}
+
+.border_out {
+	border-color : black;
+}
+
+.text_custom{
+	color: #ffbe33;
+}
+
+.layout_coustom{
+	padding-bottom: 90px;
+}
+
+.btn_custom{
+	border-color: #ffbe33;
+}
+
+.btn_custom:hover {
+	background-color: #ffbe33;
+	color: white !important;
+}

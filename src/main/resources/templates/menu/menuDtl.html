@@ -1,0 +1,155 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout2}">
+
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>	
+
+<th:block layout:fragment="css">
+	<link th:href="@{/css/menuDtl.css}" rel="stylesheet" />
+	<style>
+	
+	</style>
+</th:block>
+
+<div layout:fragment="content">
+	<div class="site-section layout_padding" style="padding-top: 200px;">
+		<div class="container">
+			<div class="row">
+				<input type="hidden" id="menuId" th:value="${menu.id}">
+			
+				<div class="col-md-6">
+					<div class="item-entry">
+						<a href="#" class="product-item md-height bg-gray d-block"> 
+						<img th:src="${menu.menuImgDto.imgUrl}"
+						class="rounded repImg" th:alt="${menu.menuNm}">
+						</a>
+
+					</div>
+
+				</div>
+				<div class="col-md-6" style="padding-top: 35px;">
+					<span th:text="${menu.menuSellStatus}" class="badge badge-primary mgb-15"></span> 
+					<h2 class="text-black" th:text="${menu.menuNm}"></h2>
+					
+					<p>
+						<input type="hidden" th:value="${menu.price}" id="price" name="price">
+						<strong class="text_custom h4" th:text="|${#numbers.formatInteger(menu.price, 0, 'COMMA')}원|"></strong>
+					</p>
+					
+					<div class="mb-5">
+						<div class="input-group mb-3" style="max-width: 120px;">
+							<div class="input-group-prepend">
+								<button class="btn border_out js-btn-minus count_btn"
+									type="button">&minus;</button>
+							</div>
+							<input type="text" class="form-control text-center border_out" value="1"
+								placeholder="" aria-label="Example text with button addon"
+								aria-describedby="button-addon1" name="count" id="count">
+							<div class="input-group-append">
+								<button class="btn border_out js-btn-plus count_btn"
+									type="button">&plus;</button>
+							</div>
+						</div>
+						<div>
+							<h5 style="display: inline-block; margin-right: 15px; color:black; font-weight:bold;'">총 상품 금액</h5>
+							<strong id="totalPrice" class="text_custom h4"></strong>
+						</div>
+					</div>
+					<p th:if="${#strings.equals(menu.menuSellStatus, 'SELL')}">
+						
+						<!-- <button type="button" class="btn btn_custom btn-lg"
+						 onclick="order()">주문하기</button> -->
+					</p>
+					<p th:unless="${#strings.equals(menu.menuSellStatus, 'SELL')}">
+						해당 상품은 현재 품절입니다.
+					</p>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="site-section block-3 site-blocks-2 layout_coustom">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-7 site-section-heading text-center pt-4">
+					<h2>Menu Detail</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h5 style="white-space:pre-wrap;" th:text="${menu.menuDetail}"></h5>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<th:block layout:fragment="script">
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+	<script th:inline="javascript">
+		$(document).ready(function(){
+			// 처음 상세페이지 화면에 들어올 때 총 상품금액이 보여야하므로
+			calculateTotalPrice();
+			
+			// 수량 -, + 버튼을 누를때마다 총 가격을 구한다.
+			$(".count_btn").click(function(){
+				calculateTotalPrice();
+			})
+		});
+		
+		function calculateTotalPrice(){
+			var count = $("#count").val(); // 수량
+			var price = $("#price").val(); // 가격
+			var totalPrice = (count * price).toLocaleString('ko-KR'); // 천단위 콤마
+			$("#totalPrice").html(totalPrice + '원');
+		}
+		
+		function order(){
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = "/order"
+			
+			// controller(서버)에 전달할 데이터
+			var paramData = {
+					itemId : $("#itemId").val(),
+					count : $("#count").val()
+			}
+			
+			// ★전달하기 전에 데이터를 JSON -> 문자열로 만들어야한다.
+			var param = JSON.stringify(paramData);
+			
+			$.ajax({
+				url : url, // request URL
+				type : "POST", // 전송 방식
+				contentType : "application/json",
+				data : param, // 서버에 전송할 데이터
+				beforeSend : function(xhr) {
+					// 데이터를 전송하기전에 헤더에 csrf 값을 설정
+					xhr.setRequestHeader(header, token);
+				},
+				dataType : "json",
+				cache : false,
+				success : function(result, status) {
+					alert('주문이 완료 되었습니다.' + result);
+					//location.href = '/';
+				},
+				error : function(jqXHR, status, error) {
+					if(jqXHR.status == '401'){
+						alert('로그인 후 이용해주세요.');
+						location.href = '/members/login';
+					}else{
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+			
+		}
+	</script>
+</th:block>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout2}">
+
+<head>
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<th:block layout:fragment="css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bookPage.css}"/>	
+	<style>
+
+.layout_padding {
+	padding: 180px 0;
+}
+
+.custom_nav-container{
+	padding: 0;
+}
+</style>
+</th:block>
+<div layout:fragment="content">
+	<section class="book_section layout_padding">
+		<div class="container">
+			<div class="heading_container" style="padding: 0 450px;">
+				<h2 style="width: 200px;">예약하기</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form_container">
+						
+							<div>
+								<label th:for="bookNm" class="text-black">예약자</label> <input
+									type="text" class="form-control" placeholder="예약자 성함을 입력해주세요"
+									id="bookNm">
+							</div>
+
+							<div>
+								<label th:for="bookPersonnel" class="text-black">인원</label> <input
+									type="text" placeholder="인원을 입력해주세요" class="form-control"
+									id="bookPersonnel">
+							</div>
+
+							<div class="row" style="padding-left: 15px;">
+								<div class="col-md-4">
+									<label th:for="mainMenuId" class="text-black">메뉴</label>
+									<select class="form-control" id="mainMenuId">
+										<th:block th:each="menu : ${menus}">
+											<option th:value="${menu.id}" th:text="${menu.menuNm}"></option>
+										</th:block>
+									</select>
+								</div>	
+								
+								<div class="col-md-8">
+									<label th:for="count" class="text-black">수량</label> <input
+										type="text" placeholder="수량을 입력해주세요" class="form-control"
+										id="count">
+								</div>	
+							</div>
+							
+								
+							
+
+							<div>
+								<label th:for="book_request" class="text-black">요청사항</label> <input
+									type="text" class="form-control" placeholder="요청사항을 입력해주세요"
+									id="book_request">
+							</div>
+
+							<div>
+								<label th:for="bookDate" class="text-black">날짜</label>
+								<div class="container-fluid px-0 px-sm-4 mx-auto">
+									<div class="row justify-content-center mx-0">
+										<div class="col-lg-10">
+											<div class="card border-0">
+													<div class="card-header bg-dark">
+														<div
+															class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+															<input type="text" id="bookDate" class="datepicker"
+																placeholder="Pick Date"><span
+																class="fa fa-calendar"></span>
+														</div>
+													</div>
+													<div class="card-body p-3 p-sm-5">
+													<label>  오전</label>
+														<div class="row text-center mx-0" style="margin-bottom: 10px;">
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="10:00">10:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="10:30">10:30</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="11:00">11:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="11:30">11:30</div>
+															</div>
+														</div>
+													<label>  오후</label>
+														<div class="row text-center mx-0">
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="12:00">12:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="12:30">12:30</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="13:00">13:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="13:30">13:30</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="14:00">14:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="14:30">14:30</div>
+															</div>
+														</div>
+														<div class="row text-center mx-0">
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="15:00">15:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="15:30">15:30</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="16:00">16:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="16:30">16:30</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="17:00">17:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="17:30">17:30</div>
+															</div>
+														</div>
+														<div class="row text-center mx-0">
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="18:00">18:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="18:30">18:30</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="19:00">19:00</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="19:30">19:30</div>
+															</div>
+															<div class="col-md-2 col-4 my-1 px-2">
+																<div class="cell py-1" value="20:00">20:00</div>
+															</div>
+														</div>
+													</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="btn_box" style="padding: 0 485px;">
+								<button type="button"  onclick="book()">예약</button>
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<th:block layout:fragment="script">
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
+	<script th:inline="javascript">
+		$(document).ready(function(){
+	
+			$('.datepicker').datepicker({
+			    format: 'yyyy-mm-dd',
+			    autoclose: true,
+			    startDate: '0d',
+			    minDate: '0d'
+			});			
+			
+			$('.cell').click(function(){
+			    $('.cell').removeClass('select');
+			    $(this).addClass('select');
+			    
+			});
+			
+			
+			});
+		
+		const isEmpty = (value) => {
+		    if (value == null) {
+		        return true;
+		    }
+	
+		    if (value.length) {
+		        return value.length === 0;
+		    }
+	
+		    return Object.keys(value).length === 0;
+		}
+	
+		function book() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+	
+			var url = "/book/new"
+			
+			if($("#bookDate").val().trim() == ""){
+				alert('날짜를 선택해주세요.');
+				return;
+			}
+			
+			if(isEmpty($(".select").attr("value"))){
+				alert('시간을 선택해주세요.');
+				return;
+			}
+			
+			// controller(서버)에 전달할 데이터
+			var paramData = {
+				mainMenuId : $("#mainMenuId").val(),
+				bookNm : $("#bookNm").val(),
+				bookDate : $("#bookDate").val() + ' ' + $(".select").attr("value"),
+				bookPersonnel : $("#bookPersonnel").val(),
+				book_request : $("#book_request").val(),
+				count : $("#count").val()
+			}
+	
+			// ★전달하기 전에 데이터를 JSON -> 문자열로 만들어야한다.
+			var param = JSON.stringify(paramData);
+	
+			$.ajax({
+				url : url, // request URL
+				type : "POST", // 전송 방식
+				contentType : "application/json",
+				data : param, // 서버에 전송할 데이터
+				beforeSend : function(xhr) {
+					// 데이터를 전송하기전에 헤더에 csrf 값을 설정
+					xhr.setRequestHeader(header, token);
+				},
+				dataType : "json",
+				cache : false,
+				success : function(result, status) {
+					alert('예약이 완료 되었습니다.');
+					location.href = '/';
+				},
+				error : function(jqXHR, status, error) {
+					if (jqXHR.status == '401') {
+						alert('로그인 후 이용해주세요.');
+						location.href = '/bookPage';
+					} else {
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+	
+		}
+	</script>
+</th:block>
+</html>

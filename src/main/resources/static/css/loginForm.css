@@ -1,0 +1,25 @@
+@charset "UTF-8";
+.site-section {
+	background-color: #222831;
+}
+
+.h3{
+	color: white;
+	text-align: center;
+}
+
+label{
+	color: white;
+}
+
+.layout_padding{
+	padding-top: 150px;
+}
+
+.find{
+	color:#FFBE33;
+}
+
+.find:hover {
+	color:white;
+}
