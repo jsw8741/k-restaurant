@@ -39,11 +39,17 @@ public class Review extends BaseEntity{
 	public static Review createReview(ReviewFormDto reviewFormDto, Member member, Menu Menu, String imgUrl) {
 		Review review = new Review();
 		
-		review.setReviewText(reviewFormDto.getMenuReview());
+		review.setReviewText(reviewFormDto.getReviewText());
 		review.setMember(member);
 		review.setMenu(Menu);
 		review.setImgUrl(imgUrl);
 		
 		return review;
+	}
+	
+	public void updateReview(ReviewFormDto reviewFormDto, Menu menu, String imgUrl) {
+		this.reviewText = reviewFormDto.getReviewText();
+		this.menu = menu;
+		this.imgUrl = imgUrl;
 	}
 }

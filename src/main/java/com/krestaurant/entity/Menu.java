@@ -64,10 +64,19 @@ public class Menu extends BaseEntity{
 		}
 		
 		this.stockNumber = restStock;
+		
+		if(this.stockNumber == 0) {
+			this.menuSellStatus = MenuSellStatus.SOLD_OUT;
+		}
 	}
 	
 	// 재고를 증가시키는 메소드
 	public void addStock(int stockNumber) {
 		this.stockNumber += stockNumber;
+		
+		if(this.stockNumber > 0) {
+			this.menuSellStatus = MenuSellStatus.SELL;
+		}
+		
 	}
 }

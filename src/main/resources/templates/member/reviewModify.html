@@ -2,6 +2,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout2}">
 
+<head>
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
 <th:block layout:fragment="css">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/menuForm.css}"/>
 	<style>
@@ -31,13 +36,13 @@
 <div class="book_section layout_padding">
 		<div class="container">
 		<div class="heading_container" style="padding: 0 450px;padding-top: 80px;">
-						<h2 style="width: 200px;">리뷰작성</h2>
+						<h2 style="width: 200px;">리뷰수정</h2>
 					</div>
 			<div class="row">
 				<div class="col-md-12">
 					
 					<div class="p-3 p-lg-5 border">
-						<form role="form" action="/members/review/create" method="post" enctype="multipart/form-data" 
+						<form role="form" action="/members/myReview/update" method="post" enctype="multipart/form-data" 
 							th:object="${reviewFormDto}" name="reviewForm">
 
 							<input type="hidden" th:field="*{id}"/>
@@ -63,7 +68,9 @@
 
 							<div class="form-group">
 								<div class="col-md-12 d-flex justify-content-center">
-									<button type="submit" class="btn btn-primary mb-3" style="width:150px;">리뷰등록</button>
+									<button type="submit" class="btn btn-primary mb-3" style="width:150px;">리뷰수정</button>
+									&nbsp;&nbsp;
+									<button type="submit" class="btn btn-primary mb-3" style="width:150px;" th:value="${reviewFormDto.id}" onclick="deleteReview(this.value)">리뷰삭제</button>
 								</div>
 				
 							</div>
@@ -89,6 +96,38 @@
         	}
 		});
 	
+		function deleteReview(reivewId){
+			const deleteconf = confirm("정말 삭제하시겠습니까?");
+			if(!deleteconf) return;
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = "/members/" + reivewId + "/delete/review";
+
+				$.ajax({
+					url : url,
+					type : "DELETE", //전송방식
+					contentType : "application/json",
+					beforeSend : function(xhr) {
+						//데이터를 전송하기 전에 헤더에 xsrf값
+						xhr.setRequestHeader(header, token);
+					},
+					dataType : "json",
+					cache : false,
+					success : function(result, status) {
+						location.href = '/members/myPage';
+					},
+					error : function(jqXHR, status, error) {
+						if(jqXHR.status == '401') {
+							alert('로그인 후 이용해주세요.');
+							location.href = '/member/login';
+						} else {
+							alert(jqXHR.responseText);
+						}
+					}
+				});
+		}
 	</script>
 </th:block>
 </html>

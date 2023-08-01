@@ -25,7 +25,9 @@ import com.krestaurant.dto.MainMenuDto;
 import com.krestaurant.dto.MenuFormDto;
 import com.krestaurant.dto.MenuSearchDto;
 import com.krestaurant.entity.Menu;
+import com.krestaurant.entity.Review;
 import com.krestaurant.service.MenuService;
+import com.krestaurant.service.ReviewService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MenuController {
 	private final MenuService menuService;
+	private final ReviewService reviewService;
 	
 	// 메뉴 전체 리스트
 	@GetMapping(value = "/menu/list")
@@ -149,8 +152,12 @@ public class MenuController {
 	
 	// 메뉴 상세보기
 	@GetMapping(value = "/menu/{menuId}")
-	public String menuDtl(Model model, @PathVariable("menuId") Long menuId) {		
+	public String menuDtl(Model model, @PathVariable("menuId") Long menuId) {	
+		
+		List<Review> reviews = reviewService.getReviewDtlList(menuId);
 		MenuFormDto menuFormDto = menuService.getMenuDtl(menuId);
+		
+		model.addAttribute("reviews", reviews);
 		model.addAttribute("menu", menuFormDto);
 		
 		return "menu/menuDtl";

@@ -115,7 +115,9 @@ public class MemberController {
 	public String memberMyPage(Model model, Principal principal) {
 		
 		MemberModifyDto member = memberService.getMyPage(principal.getName());
+		List<Review> reviews = reviewService.getMyReview(member.getId());
 		
+		model.addAttribute("reviews", reviews);
 		model.addAttribute("member", member);
 		
 		return "member/memberMypage";
@@ -156,7 +158,9 @@ public class MemberController {
 		}
 		
 		MemberModifyDto member = memberService.getMyPage(principal.getName());
+		List<Review> reviews = reviewService.getMyReview(member.getId());
 		
+		model.addAttribute("reviews", reviews);
 		model.addAttribute("member", member);
 		
 		return "member/memberMypage";
@@ -164,10 +168,10 @@ public class MemberController {
 	
 	// 탈퇴
 	@DeleteMapping(value = "/members/{memberId}/delete")
-	public @ResponseBody ResponseEntity memberDelete(@PathVariable("memberId") Long menuId,
+	public @ResponseBody ResponseEntity memberDelete(@PathVariable("memberId") Long memberId,
 			Principal principal) {
 		
-		memberService.deleteMember(menuId);
+		memberService.deleteMember(memberId);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -187,6 +191,9 @@ public class MemberController {
 		member.setPassword(passwordEncoder.encode(password));
 		member = memberService.updatePassword(member);
 		
+		List<Review> reviews = reviewService.getMyReview(member.getId());
+		
+		model.addAttribute("reviews", reviews);
 		model.addAttribute("member", member);
 		
 		return "member/memberMypage";
@@ -233,5 +240,64 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 리뷰 수정 화면
+	@GetMapping(value = "/members/myReview/{reviewId}/modify")
+	public String myReviewModify(Model model, Principal principal, @PathVariable("reviewId") Long reviewId) {
+		
+		try {
+			ReviewFormDto reviewFormDto = reviewService.geyModifyReview(reviewId);
+			List<Menu> menus = menuService.getMenuList();
+			
+			model.addAttribute("menus", menus);
+			
+			model.addAttribute("reviewFormDto", reviewFormDto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage",  "리뷰 수정 화면 불러오는 중 에러가 발생했습니다.");
+			model.addAttribute("review", new ReviewFormDto());
+			return "member/reviewModify";
+		}
+		
+		
+		return "member/reviewModify";
+	}
 	
+	// 리뷰 수정
+	@PostMapping(value = "/members/myReview/update")
+	public String updateReview(@Valid ReviewFormDto reviewFormDto, Model model, BindingResult bindingResult, Principal principal) {
+		
+		if(bindingResult.hasErrors()) {
+			return "member/reviewModify";
+		}
+		
+		try {
+			MenuFormDto menuFormDto = menuService.getMenuDtl(reviewFormDto.getMenuId());
+			Menu menu = menuService.getMenuReview(reviewFormDto.getMenuId());
+			reviewService.updateReview(reviewFormDto, menu, menuFormDto.getMenuImgDto().getImgUrl());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "정보 수정 중 에러가 발생했습니다.");
+			return "redirect:/member/reviewModify";
+		}
+		
+		MemberModifyDto member = memberService.getMyPage(principal.getName());
+		List<Review> reviews = reviewService.getMyReview(member.getId());
+		
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("member", member);
+		
+		return "member/memberMypage";
+	}
+	
+	// 리뷰 삭제
+	@DeleteMapping(value = "/members/{reivewId}/delete/review")
+	public @ResponseBody ResponseEntity reivewDelete(@PathVariable("reivewId") Long reivewId,
+			Principal principal, Model model) {
+		
+		reviewService.deleteReview(reivewId);
+		
+		return new ResponseEntity<Long>(reivewId, HttpStatus.OK);
+	}
 }

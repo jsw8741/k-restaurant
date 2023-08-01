@@ -72,7 +72,7 @@ public class Member {
 		member.setPassword(password);
 		member.setPhone(memberFormDto.getPhone());
 		member.setAddress(memberFormDto.getAddress());
-		member.setRole(Role.ADMIN);
+		member.setRole(Role.USER);
 		
 		return member;
 	}

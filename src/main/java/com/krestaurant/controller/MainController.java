@@ -1,8 +1,6 @@
 package com.krestaurant.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntToLongFunction;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,8 +52,11 @@ public class MainController {
 			
 
 	        model.addAttribute("loginMessage", "로그인 후 이용해주세요.");
-	        List<MainMenuDto> menus = menuService.mainMenuList();
-			model.addAttribute("menus", menus);
+	        List<Review> reviews = reviewService.getReviewList();
+			List<MainMenuDto> menus = menuService.mainMenuList();
+			
+			model.addAttribute("reviews", reviews);
+			model.addAttribute("menus", menus);;
 			
 			return "index";
 	    }

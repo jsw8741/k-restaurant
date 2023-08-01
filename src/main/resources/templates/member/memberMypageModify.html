@@ -24,7 +24,7 @@
 						<div class="form-group row">
 							<div class="col-md-12">
 									<label th:for="name" class="text-black">name</label> <input
-										type="text" class="form-control" placeholder="이름을 입력해주세요" th:field="*{name}"
+										type="text" class="form-control name" placeholder="이름을 입력해주세요" th:field="*{name}"
 										>
 									<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="fieldError">Incorrect Data</p>
 								</div>
@@ -32,7 +32,7 @@
 						
 						<div class="form-group row">
 								<div class="col-md-12">
-									<label th:for="password" class="text-black">address</label> <input
+									<label th:for="password" class="text-black address">address</label> <input
 										type="text" class="form-control"
 										placeholder="주소를 입력해주세요" th:field="*{address}"> 
 									<p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="fieldError">Incorrect Data</p>
@@ -42,7 +42,7 @@
 						<div class="form-group row">
 							<div class="col-md-12">
 									<label th:for="password" class="text-black">phone</label> <input
-										type="tel" class="form-control"
+										type="tel" class="form-control phone"
 										placeholder="전화번호를 - 없이 입력해주세요" th:field="*{phone}" oninput="regexPhoneNumber(this)"> 
 									<p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="fieldError">Incorrect Data</p>
 								</div>
@@ -50,7 +50,7 @@
 
 						<div class="form-group">
 							<div class="btn_box">
-								<button type="submit" class="btn btn-primary mb-3">수정</button>
+								<button type="button" onclick="beforeSubmit()" class="btn btn-primary mb-3">수정</button>
 								<button type="button" class="btn btn-primary mb-3" onclick="chainge()">비밀번호 변경</button>
 							</div>
 						</div>
@@ -85,6 +85,29 @@
 			location.href= "/members/machingPw";
 		}
 		
+		function beforeSubmit(){
+			const f = document.memberForm;
+
+			if(f.name.value == ""){
+				alert("이름을 입력해주세요!");
+				return;
+			}
+			
+			if(f.address.value == ""){
+				alert("주소를 입력해주세요!");
+				return;
+			}
+			
+			if(f.phone.value == ""){
+				alert("전화번호를 입력해주세요!");
+				return;
+			}
+			
+			f.submit();
+			
+		}
+		
+			
 	</script>
 </th:block>
 </html>

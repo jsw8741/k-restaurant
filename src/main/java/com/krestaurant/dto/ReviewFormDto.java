@@ -1,5 +1,9 @@
 package com.krestaurant.dto;
 
+import org.modelmapper.ModelMapper;
+
+import com.krestaurant.entity.Review;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -14,11 +18,14 @@ public class ReviewFormDto {
 	private Long menuId;
 	
 	@NotBlank(message = "리뷰 내용은 필수 입력입니다.")
-	private String menuReview;
+	private String reviewText;
 	
-	private String imgUrl;
-
-	private String addDate;
+	private static ModelMapper modelMapper = new ModelMapper();
 	
-	private String updateDate;
+	//entity -> dto
+	public static ReviewFormDto of(Review review) {
+		return modelMapper.map(review, ReviewFormDto.class); 
+	}
 }
+
+
