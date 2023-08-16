@@ -49,14 +49,14 @@ public class MainController {
 				menuService.saveCategory(category3);
 				menuService.saveCategory(category4);
 			}
-			
 
 	        model.addAttribute("loginMessage", "로그인 후 이용해주세요.");
 	        List<Review> reviews = reviewService.getReviewList();
 			List<MainMenuDto> menus = menuService.mainMenuList();
 			
+			
 			model.addAttribute("reviews", reviews);
-			model.addAttribute("menus", menus);;
+			model.addAttribute("menus", menus);
 			
 			return "index";
 	    }

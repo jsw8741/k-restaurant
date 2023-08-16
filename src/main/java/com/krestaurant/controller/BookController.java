@@ -161,7 +161,6 @@ public class BookController {
 	@DeleteMapping(value = "/book/{bookId}/delete")
 	public @ResponseBody ResponseEntity userDeleteBook(@PathVariable("bookId") Long bookId,
 			Principal principal) {
-		
 		// 본인 확인
 		if(!bookService.validateUser(principal.getName(), bookId)) {
 			return new ResponseEntity<String>("예약 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
