@@ -1,6 +1,7 @@
 package com.krestaurant.service;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class MenuImgService {
-	private String menuImgLocation = "C:/k-restaurant/menu";
+//	private String menuImgLocation = "C:/k-restaurant/menu";
+	@Value("${menuImgLocation}")
+	private String menuImgLocation;
+	
 	private final MenuImgRepository menuImgRepository;
 	private final FileService fileService;
 	
