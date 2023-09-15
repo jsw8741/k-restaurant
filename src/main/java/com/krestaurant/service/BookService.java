@@ -102,7 +102,7 @@ public class BookService {
 		reservation.cancelReservation();
 	}
 	
-	// 관리자가 예약 삭제
+	// 예약 삭제
 	public void deleteBook(Long bookId) {
 		Reservation reservation = bookRepository.findById(bookId)
 				.orElseThrow(EntityNotFoundException::new);

@@ -292,12 +292,11 @@ public class MemberController {
 	}
 	
 	// 리뷰 삭제
-	@DeleteMapping(value = "/members/{reivewId}/delete/review")
-	public @ResponseBody ResponseEntity reivewDelete(@PathVariable("reivewId") Long reivewId,
+	@DeleteMapping(value = "/members/{reviewId}/delete/review")
+	public @ResponseBody ResponseEntity reviewDelete(@PathVariable("reviewId") Long reviewId,
 			Principal principal, Model model) {
+		reviewService.deleteReview(reviewId);
 		
-		reviewService.deleteReview(reivewId);
-		
-		return new ResponseEntity<Long>(reivewId, HttpStatus.OK);
+		return new ResponseEntity<Long>(reviewId, HttpStatus.OK);
 	}
 }
