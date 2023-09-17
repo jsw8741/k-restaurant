@@ -51,6 +51,38 @@ public class BookService {
 		BookMenu bookMenu = BookMenu.createBookMenu(menu, reservationDto.getCount());
 		bookMenuList.add(bookMenu);
 		
+		if(reservationDto.getQuantity1() != null) {
+			Menu addMenu1 = menuRepository.findById(reservationDto.getAddMenu1())
+					  .orElseThrow(EntityNotFoundException::new);
+			
+			bookMenu = BookMenu.createBookMenu(addMenu1, reservationDto.getQuantity1());
+			bookMenuList.add(bookMenu);
+		}
+		
+		if(reservationDto.getQuantity2() != null) {
+			Menu addMenu2 = menuRepository.findById(reservationDto.getAddMenu2())
+					  .orElseThrow(EntityNotFoundException::new);
+			
+			bookMenu = BookMenu.createBookMenu(addMenu2, reservationDto.getQuantity2());
+			bookMenuList.add(bookMenu);
+		}
+		
+		if(reservationDto.getQuantity3() != null) {
+			Menu addMenu3 = menuRepository.findById(reservationDto.getAddMenu3())
+					  .orElseThrow(EntityNotFoundException::new);
+			
+			bookMenu = BookMenu.createBookMenu(addMenu3, reservationDto.getQuantity3());
+			bookMenuList.add(bookMenu);
+		}
+		
+		if(reservationDto.getQuantity4() != null) {
+			Menu addMenu4 = menuRepository.findById(reservationDto.getAddMenu4())
+					  .orElseThrow(EntityNotFoundException::new);
+			
+			bookMenu = BookMenu.createBookMenu(addMenu4, reservationDto.getQuantity4());
+			bookMenuList.add(bookMenu);
+		}
+		
 		// 4. 회원 정보와 예약할 메뉴 리스트 정보를 이용하여 엔티티를 생성
 		reservationDto.createReservation();
 		Reservation reservation = Reservation.createBook(member, bookMenuList, reservationDto);

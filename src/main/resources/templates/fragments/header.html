@@ -52,7 +52,7 @@
                   <i class="fa fa-book" aria-hidden="true" sec:authorize="hasAnyAuthority('ROLE_USER')"></i>                
                 </a>
                  <a href="/members/new" class="order_online" sec:authorize="isAnonymous()"> 회원가입 </a>
-              	 <!-- <a href="/menu/list" class="order_online" sec:authorize="isAuthenticated()"> 온라인 주문 </a> -->
+              	 <a href="/menu/list" class="order_online" sec:authorize="isAuthenticated()"> 온라인 주문 </a>
               </div>
             </div>
           </nav>

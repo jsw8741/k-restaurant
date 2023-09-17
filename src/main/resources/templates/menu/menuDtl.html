@@ -88,7 +88,7 @@
 	</div>
 	
 	<section class="client_section layout_padding-bottom">
-	    <div class="container" th:if="${not reviews.isEmpty()}">
+	    <div class="container" th:if="${reviews.size() >= 2}">
 	      <div class="heading_container heading_center psudo_white_primary mb_45">
 	        <h2>
 	          Reviews

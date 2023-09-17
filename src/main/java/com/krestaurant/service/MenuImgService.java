@@ -17,9 +17,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class MenuImgService {
-//	private String menuImgLocation = "C:/k-restaurant/menu";
-	@Value("${menuImgLocation}")
-	private String menuImgLocation;
+	private String menuImgLocation = "C:/k-restaurant/menu";
+//	@Value("${menuImgLocation}")
+//	private String menuImgLocation;
 	
 	private final MenuImgRepository menuImgRepository;
 	private final FileService fileService;

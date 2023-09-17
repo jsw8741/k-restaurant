@@ -32,7 +32,12 @@
 							</th:block>
 						</div>
 						
-						<div class="card d-flex flex-row">
+						<div class="card d-flex flex-column">
+							<div style="position: relative;right: 260px;margin-top: 15px;">
+								<span th:text="'예약자 : ' + ${book.bookMemberNm}"></span>
+								<br>
+								<span th:text="'연락처 : ' + ${book.bookMemberPh}"></span>							
+							</div>
 							<div th:each="bookMenu : ${book.bookMenuDtoList}"
 								class="d-flex mb-3" style="width:90%">
 								<div class="repImgDiv">
@@ -44,10 +49,6 @@
 									<span class="font-weight-bold"
 										style="font-size: 18px; color: black;"></span>
 									<div class="fs18 font-weight-light">
-										 <span th:text="'예약자 : ' + ${book.bookMemberNm}"></span>
-										 <br>
-										 <span th:text="'연락처 : ' + ${book.bookMemberPh}"></span>
-										 <br>
 										 <span th:text="${bookMenu.menuNm} + ' : '"></span>
 										 <span th:text="${bookMenu.count} + 개"></span>
 										 <br>
@@ -62,12 +63,12 @@
 									<button type="button" class="btn btn-outline-secondary" style="margin-bottom: 1rem;"
 									th:value="${book.bookId}" onclick="cancelBook(this.value)">예약취소</button>
 									
-									<button type="button" class="btn btn-outline-secondary"
+									<button type="button" class="btn btn-outline-secondary" style="margin-bottom: 1rem;"
 									th:value="${book.bookId}" onclick="doneBook(this.value)">결제완료</button>
 								</th:block>
 								
 								<th:block th:if="${#strings.equals(book.bookStatus, 'CANCEL')}">
-									<button type="button" class="btn btn-primary" style="margin-right: 100px;"
+									<button type="button" class="btn btn-primary" style="margin-right: 100px;margin-bottom: 1rem;"
 									th:value="${book.bookId}" onclick="deleteBook(this.value)">삭제하기</button>
 								</th:block>
 							</div>

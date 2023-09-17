@@ -49,7 +49,8 @@
 									id="bookPersonnel">
 							</div>
 
-							<div class="row" style="padding-left: 15px;">
+							
+							<div class="row" style="padding-left: 15px;">	
 								<div class="col-md-4">
 									<label th:for="mainMenuId" class="text-black">메뉴</label>
 									<select class="form-control" id="mainMenuId">
@@ -61,13 +62,75 @@
 								
 								<div class="col-md-8">
 									<label th:for="count" class="text-black">수량</label> <input
-										type="text" placeholder="수량을 입력해주세요" class="form-control"
-										id="count">
+										type="text" placeholder="수량을 입력해주세요" class="form-control" id="count">
 								</div>	
 							</div>
 							
-								
+							<div class="row" style="padding-left: 15px; display: none;" id="menuField1">
+							    <div class="col-md-4">
+							        <label th:for="mainMenuId" class="text-black">메뉴</label>
+							        <select class="form-control" id="addMenu1" name="addMenu1">
+							            <th:block th:each="menu : ${menus}">
+							                <option th:value="${menu.id}" th:text="${menu.menuNm}"></option>
+							            </th:block>
+							        </select>
+							    </div>  
+							    
+							    <div class="col-md-8">
+							        <label th:for="count" class="text-black">수량</label>
+							        <input type="text" placeholder="수량을 입력해주세요" class="form-control" id="quantity1">
+							    </div>
+							</div>
 							
+							<div class="row" style="padding-left: 15px; display: none;" id="menuField2">
+							    <div class="col-md-4">
+							        <label th:for="mainMenuId" class="text-black">메뉴</label>
+							        <select class="form-control" id="addMenu2" name="addMenu2">
+							            <th:block th:each="menu : ${menus}">
+							                <option th:value="${menu.id}" th:text="${menu.menuNm}"></option>
+							            </th:block>
+							        </select>
+							    </div>  
+							    
+							    <div class="col-md-8">
+							        <label th:for="count" class="text-black">수량</label>
+							        <input type="text" placeholder="수량을 입력해주세요" class="form-control" id="quantity2">
+							    </div>
+							</div>
+							
+							<div class="row" style="padding-left: 15px; display: none;" id="menuField3">
+							    <div class="col-md-4">
+							        <label th:for="mainMenuId" class="text-black">메뉴</label>
+							        <select class="form-control" id="addMenu3" name="addMenu3">
+							            <th:block th:each="menu : ${menus}">
+							                <option th:value="${menu.id}" th:text="${menu.menuNm}"></option>
+							            </th:block>
+							        </select>
+							    </div>  
+							    
+							    <div class="col-md-8">
+							        <label th:for="count" class="text-black">수량</label>
+							        <input type="text" placeholder="수량을 입력해주세요" class="form-control" id="quantity3">
+							    </div>
+							</div>	
+							
+							<div class="row" style="padding-left: 15px; display: none;" id="menuField4">
+							    <div class="col-md-4">
+							        <label th:for="mainMenuId" class="text-black">메뉴</label>
+							        <select class="form-control" id="addMenu4" name="addMenu4">
+							            <th:block th:each="menu : ${menus}">
+							                <option th:value="${menu.id}" th:text="${menu.menuNm}"></option>
+							            </th:block>
+							        </select>
+							    </div>  
+							    
+							    <div class="col-md-8">
+							        <label th:for="count" class="text-black">수량</label>
+							        <input type="text" placeholder="수량을 입력해주세요" class="form-control" id="quantity4">
+							    </div>
+							</div>						
+							
+							<button type="button" onclick="addMenuField()">메뉴 추가</button>
 
 							<div>
 								<label th:for="book_request" class="text-black">요청사항</label> <input
@@ -182,12 +245,9 @@
 </div>
 
 <th:block layout:fragment="script">
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
 	<script th:inline="javascript">
 		$(document).ready(function(){
 	
@@ -225,6 +285,38 @@
 	
 			var url = "/book/new"
 			
+			// 수량 필드 값 가져오기
+		    var count = parseInt($("#count").val());
+		    var quantity1 = parseInt($("#quantity1").val());
+		    var quantity2 = parseInt($("#quantity2").val());
+		    var quantity3 = parseInt($("#quantity3").val());
+		    var quantity4 = parseInt($("#quantity4").val());
+		    
+		    if (isNaN(count) || count <= 0 || count > 10) {
+		        alert('수량을 1부터 10 사이의 값으로 입력해주세요.');
+		        return;
+		    }
+		    
+		    if (!isNaN(quantity1) && (quantity1 <= 0 || quantity1 > 10)) {
+		        alert('수량을 1부터 10 사이의 값으로 입력해주세요.');
+		        return;
+		    }
+		    
+		    if (!isNaN(quantity2) && (quantity2 <= 0 || quantity2 > 10)) {
+		        alert('수량을 1부터 10 사이의 값으로 입력해주세요.');
+		        return;
+		    }
+		    
+		    if (!isNaN(quantity3) && (quantity3 <= 0 || quantity3 > 10)) {
+		        alert('수량을 1부터 10 사이의 값으로 입력해주세요.');
+		        return;
+		    }
+		    
+		    if (!isNaN(quantity4) && (quantity4 <= 0 || quantity4 > 10)) {
+		        alert('수량을 1부터 10 사이의 값으로 입력해주세요.');
+		        return;
+		    }
+		    
 			if($("#bookDate").val().trim() == ""){
 				alert('날짜를 선택해주세요.');
 				return;
@@ -237,12 +329,26 @@
 			
 			// controller(서버)에 전달할 데이터
 			var paramData = {
+				// main menu
 				mainMenuId : $("#mainMenuId").val(),
 				bookNm : $("#bookNm").val(),
 				bookDate : $("#bookDate").val() + ' ' + $(".select").attr("value"),
 				bookPersonnel : $("#bookPersonnel").val(),
 				book_request : $("#book_request").val(),
-				count : $("#count").val()
+				count : $("#count").val(),
+				
+				// add menu1
+				addMenu1 : $("#addMenu1").val(),
+				quantity1 : $("#quantity1").val(),
+				// add menu2
+				addMenu2 : $("#addMenu2").val(),
+				quantity2 : $("#quantity2").val(),
+				// add menu3
+				addMenu3 : $("#addMenu3").val(),
+				quantity3 : $("#quantity3").val(),
+				// add menu4
+				addMenu4 : $("#addMenu4").val(),
+				quantity4 : $("#quantity4").val()
 			}
 	
 			// ★전달하기 전에 데이터를 JSON -> 문자열로 만들어야한다.
@@ -274,6 +380,22 @@
 			});
 	
 		}
+		
+		var menuCounter = 1; // 메뉴 필드 식별을 위한 카운터 변수
+
+		function addMenuField() {
+		    if (menuCounter >= 5) {
+		        alert('최대 5개의 메뉴까지만 예약할 수 있습니다.');
+		        return;
+		    }
+
+		    var menuField = document.getElementById('menuField' + menuCounter);
+		    if (menuField) {
+		        menuField.style.display = 'flex';
+		        menuCounter++; // 카운터 증가
+		    }
+		}
+
 	</script>
 </th:block>
 </html>

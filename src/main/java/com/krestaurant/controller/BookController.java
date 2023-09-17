@@ -65,10 +65,9 @@ public class BookController {
 			return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
 		}
 		
-		
 		String email = principal.getName(); // id에 해당하는 정보를 가지고 온다(email)
 		Long bookId;
-		
+
 		try {
 			bookId = bookService.createbook(reservationDto, email);
 			

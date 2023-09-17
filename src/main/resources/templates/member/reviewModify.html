@@ -70,7 +70,7 @@
 								<div class="col-md-12 d-flex justify-content-center">
 									<button type="submit" class="btn btn-primary mb-3" style="width:150px;">리뷰수정</button>
 									&nbsp;&nbsp;
-									<button type="submit" class="btn btn-primary mb-3" style="width:150px;" th:value="${reviewFormDto.id}" onclick="deleteReview(this.value)">리뷰삭제</button>
+									<button type="button" class="btn btn-primary mb-3" style="width:150px;" th:value="${reviewFormDto.id}" onclick="deleteReview(this.value)">리뷰삭제</button>
 								</div>
 				
 							</div>
@@ -116,6 +116,7 @@
 					dataType : "json",
 					cache : false,
 					success : function(result, status) {
+						alert('삭제가 완료되었습니다.');
 						location.href = '/members/myPage';
 					},
 					error : function(jqXHR, status, error) {

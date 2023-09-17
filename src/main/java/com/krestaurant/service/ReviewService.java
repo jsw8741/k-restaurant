@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.krestaurant.dto.ReviewFormDto;
 import com.krestaurant.entity.Menu;
 import com.krestaurant.entity.Review;
-import com.krestaurant.repository.MenuRepository;
 import com.krestaurant.repository.ReviewRepository;
 
 import jakarta.persistence.EntityNotFoundException;

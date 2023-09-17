@@ -30,7 +30,7 @@ public class ReservationDto {
 	private Integer bookPersonnel;
 	
 	@Min(value = 1, message = "최소 주문 수량은 1개 입니다.")
-	@Max(value = 50, message = "최대 주문 수량은 50개 입니다.")
+	@Max(value = 10, message = "최대 주문 수량은 10개 입니다.")
 	@NotNull(message = "수량은 필수 입력입니다.")
 	private Integer count;
 	
@@ -38,7 +38,17 @@ public class ReservationDto {
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	
+	private Long addMenu1;
+	private Integer quantity1;
 	
+	private Long addMenu2;
+	private Integer quantity2;
+	
+	private Long addMenu3;
+	private Integer quantity3;
+	
+	private Long addMenu4;
+	private Integer quantity4;
 	
 	//dto -> entity
 	public Reservation createReservation() {
