@@ -47,7 +47,7 @@
 									<select class="form-select" th:field="*{categoryId}">
 										<option value="">카테고리</option>
 										<option value="1">탕</option>
-										<option value="2">볶음</option>
+										<option value="2">구이</option>
 										<option value="3">찜</option>
 									</select>
 									<p th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}" class="fieldError category">Incorrect Data</p>

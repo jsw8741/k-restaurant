@@ -40,7 +40,7 @@ public class MainController {
 			// 서버 최초 실행 시 등록된 카테고리 없으면 등록		
 			if(menuService.getCategoryList().isEmpty()) {
 				Category category1 = Category.createCategory((long) 1, "탕");
-				Category category2 = Category.createCategory((long) 2, "볶음");
+				Category category2 = Category.createCategory((long) 2, "구이");
 				Category category3 = Category.createCategory((long) 3, "찜");
 				Category category4 = Category.createCategory((long) 4, "정식");
 				
