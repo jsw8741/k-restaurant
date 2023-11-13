@@ -26,7 +26,6 @@ public class EmailServiceImpl  implements EmailService{
 		}
 	 
 	    private MimeMessage createMessage(String to, String tempPassword)throws Exception{
-	    	System.out.println(to + "ZZZZZZZZZZZZZZZZZZZ");
 	        MimeMessage  message = emailSender.createMimeMessage();
 	 
 	        message.addRecipients(RecipientType.TO, to);//보내는 대상
